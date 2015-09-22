@@ -154,28 +154,23 @@ model {
   phiDef ~ beta(100,20);
 
   for(k in 1:T-1){
+
     # between seasonality shocks
-    int Flag;
-    Flag <- 0;
-    for (q in 1:BP) {
-      if (k == Breaks[q]) { # this should probably be (k == (Breaks[q] - 1)), i think as it is
-                            # written at the moment it reflects and increase in variance for round 2 of each
-                            # season.
-        Flag <- 1;
-      }
-    }
+    real decayFactor;
+    int timeDelta;
+    real inflationFactor;
+    decayFactor <- 1;
+    inflationFactor <- 5;
 
+    if ((k % 23 < 7)  && ( k % 23 > 0)) { # mod by 23 for start of season variance
+        timeDelta <- k % 23;
+        decayFactor <- (inflationFactor - 1) * exp(-(timeDelta)) + 1;
+    }
     # time series updating
-    if (Flag > 0) { # allow for start of season shocks, at specified breakpoints.
-      attackGoals_raw[k+1] ~ multi_normal(phiAtt * attackGoals_raw[k] + muAttGoals_raw, 5 * stdAtt * Smat);
-      attackBehinds_raw[k+1] ~ multi_normal(phiAtt * attackBehinds_raw[k] + muAttBehinds_raw, 5 * stdAtt * Smat);
-      defend_raw[k+1] ~ multi_normal(phiDef * defend_raw[k] + muDef_raw, 5 * stdDef * Smat);
-    } else {
-      attackGoals_raw[k+1] ~ multi_normal(phiAtt * attackGoals_raw[k] + muAttGoals_raw, stdAtt * Smat);
-      attackBehinds_raw[k+1] ~ multi_normal(phiAtt * attackBehinds_raw[k] + muAttBehinds_raw, stdAtt * Smat);
-      defend_raw[k+1] ~ multi_normal(phiDef * defend_raw[k] + muDef_raw, stdDef * Smat);
-    }
-
+    # allow for start of season shocks, at specified breakpoints.
+    attackGoals_raw[k+1] ~ multi_normal(phiAtt * attackGoals_raw[k] + muAttGoals_raw, decayFactor * stdAtt * Smat);
+    attackBehinds_raw[k+1] ~ multi_normal(phiAtt * attackBehinds_raw[k] + muAttBehinds_raw, decayFactor * stdAtt * Smat);
+    defend_raw[k+1] ~ multi_normal(phiDef * defend_raw[k] + muDef_raw, decayFactor * stdDef * Smat);
   }
 
   for(q in 1:G){

@@ -142,6 +142,12 @@ winDrawLossPer <- function(x.vec) {
 }
 
 per.chance.mat <- apply(fit.samples$totalDiff, 2, winDrawLossPer)
+
+# the sd ests are going to be wildly larger than they should due to not throwing out burn in
+# samples, should probably change all my apply's to deal with this but ehhhhhhhh, more samples
+# takes care of it for the most part
+sd.ests <- round(apply(fit.samples$totalDiff,2,sd),2)
+
 # i still think we are over predicting the draw chance, but this one
 # is significantly better than before.
 
@@ -154,8 +160,9 @@ sim.pred.mat <- matrix(c("behind diff", avg.pred.behind.diff,
                          "prediction correct?", correct.vec,
                          "home win prob", per.chance.mat[1,],
                          "draw prob", per.chance.mat[2,],
-                         "home loss prob", per.chance.mat[3,]
-                         ), nrow = 10, byrow = T)
+                         "home loss prob", per.chance.mat[3,],
+                         "simulated sd ests", sd.ests
+                         ), nrow = 11, byrow = T)
 
 write.csv(sim.pred.mat, file = "internal predictions.csv")
 
