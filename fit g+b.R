@@ -75,7 +75,7 @@ print("sampling")
 sflist <-
   mclapply(1:4, mc.cores = 4,
            function(i) stan(fit = prefit, data = dat.list,
-                            chains = 1, chain_id = i, iter = 15000,
+                            chains = 1, chain_id = i, iter = 2500,
                             refresh = -1, init = "0"))
 
 print("finished stanfit, combining data")

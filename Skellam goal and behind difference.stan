@@ -162,6 +162,8 @@ model {
     decayFactor <- 1;
     inflationFactor <- 5;
 
+    # see Thesis for explaination behind this
+
     if ((k % 23 < 7)  && ( k % 23 > 0)) { # mod by 23 for start of season variance
         timeDelta <- k % 23;
         decayFactor <- (inflationFactor - 1) * exp(-(timeDelta)) + 1;
