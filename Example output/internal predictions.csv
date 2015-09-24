@@ -1,0 +1,8 @@
+"","V1","V2","V3","V4","V5","V6","V7","V8","V9","V10"
+"1","behind diff","7.09633333333333","15.8996","3.5008","-1.55606666666667","7.0114","7.97766666666667","0.365466666666667","6.7644","8.1214"
+"2","goal diff","22.9514","6.94433333333333","32.0420666666667","-7.36293333333333","38.9110666666667","-2.9628","-3.83753333333333","3.29593333333333","8.88213333333333"
+"3","total diff","144.804733333333","57.5656","195.7532","-45.7336666666667","240.4778","-9.79913333333333","-22.6597333333333","26.54","61.4142"
+"4","home team","Collingwood","Richmond","Hawthorn","Geelong","Sydney","Melbourne","Brisbane","Port Adelaide","West Coast"
+"5","away team","Essendon","North Melbourne","Carlton","Adelaide","Gold Coast","GWS","Western Bulldogs","Fremantle","St Kilda"
+"6","actual result","-3","41","57","39","63","26","8","69","95"
+"7","prediction correct?","FALSE","TRUE","TRUE","FALSE","TRUE","FALSE","FALSE","TRUE","TRUE"
