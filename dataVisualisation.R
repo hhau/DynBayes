@@ -104,3 +104,49 @@ legend("right", all.team.names, col = 1:18, lty = 1:6,cex=0.8,fill=1:18)
 
 
 matplot(1:n.time.points, apply(behind.diff.data.by.team, 1, ma), type = "l",xlim =c(q,60))
+
+
+# skellam dist visual
+
+library(Bessel)
+lambda1 <- 1
+lambda2 <- 1
+x <- -10:10
+normalising.vec.1 <- matrix(NA, nrow = 1, ncol = length(x))
+
+q <- 1
+for (i in min(x):max(x)) {
+  normalising.vec.1[q] <- BesselI(z = (2*sqrt(lambda1*lambda2)), nu = i, nSeq = 1)
+  q <- q + 1
+}
+y <- exp(-(lambda1+lambda2)) * (lambda1/lambda2)^(x/2) * normalising.vec.1
+plot(x = x, y = y, type = "o", col ="blue")
+
+lambda3 <- 3
+lambda4 <- 4
+normalising.vec.2 <- matrix(NA, nrow = 1, ncol = length(x))
+
+q <- 1
+for (i in min(x):max(x)) {
+  normalising.vec.2[q] <- BesselI(z = (2*sqrt(lambda3*lambda4)), nu = i, nSeq = 1)
+  q <- q + 1
+}
+y.2 <- exp(-(lambda3+lambda4)) * (lambda3/lambda4)^(x/2) * normalising.vec.2
+
+lines(x = x, y = y.2, type = "o", col = "red")
+
+lambda5 <- 2
+lambda6 <- 2
+normalising.vec.3 <- matrix(NA, nrow = 1, ncol = length(x))
+
+q <- 1
+for (i in min(x):max(x)) {
+  normalising.vec.3[q] <- BesselI(z = (2*sqrt(lambda5*lambda6)), nu = i, nSeq = 1)
+  q <- q + 1
+}
+y.3 <- exp(-(lambda5+lambda6)) * (lambda5/lambda6)^(x/2) * normalising.vec.3
+
+lines(x = x, y = y.3, type = "o", col = "black")
+
+legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 2"),
+       col = c("blue", "red", "black"), lty = 1, cex = 1.3, text.width = 5.4)
