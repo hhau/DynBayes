@@ -11,7 +11,15 @@ results <- list()
 num.correct <- 0
 percent.correct <- matrix(NA, nrow = 23, ncol = 1 )
 
+goal.attack.mean <- matrix(0, nrow = 23, ncol = 18)
+behind.attack.mean <- matrix(0, nrow = 23, ncol = 18)
+def.mean <- matrix(0, nrow = 23, ncol = 18)
+
 other.params <- list()
+
+g.att.str <- list()
+b.att.str <- list()
+def.str <- list()
 for(i in 1:23) {
 
   wd <- paste(base.dir, dir.list[i], sep = "/roundfits/")
@@ -30,7 +38,16 @@ for(i in 1:23) {
   # get the delta/phi's/sigmas through time
   other.params[[i]] <- read.csv("parameter estimates.csv")
 
+  # get the means through time
+  temp.mat <- as.matrix(read.csv("AR mean estimates.csv"))
+  g.att.mean.temp <- temp.mat[-1,c(-1,-3,-4)]
+  b.att.mean.temp <- temp.mat[-1,c(-1,-2,-4)]
+  def.mean.temp <- temp.mat[-1, c(-1,-2,-3)]
+  goal.attack.mean[i,] <- g.att.mean.temp
+  behind.attack.mean[i,] <- b.att.mean.temp
+  def.mean[i,] <- def.mean.temp
 }
+
 # temp true/false loop
 
 mean.through.time <- matrix(NA, nrow = 23, ncol =1)
@@ -62,11 +79,6 @@ for(i in 1:23) {
 
 hist(diff[-1], xlim = c(-80,80), breaks = 50)
 
-plot(x=1:23, y = delta.vec, ylim = c(0,1)) # delta dead on through time
-
-param.mat <- rbind(delta.vec, phi.att.vec, phi.def.vec, sigma.att.vec, sigma.def.vec)
-matplot(1:23,t(param.mat), type = "l", lty=1, col = 1:5) # again, see sigma.atta.vec is getting very close to prior bounds
-  # a similar story to it's traceplot
 
 # performace through time
 matplot(1:23, cbind(mean.through.time, percent.correct),
@@ -77,5 +89,60 @@ matplot(1:23, cbind(mean.through.time, percent.correct),
         )
 legend("bottom", legend = c("round", "mean"), col = c("red","black"), lty=1, cex = 1.1, text.width = 2.5)
 
+# other params through time
+param.mat <- rbind(delta.vec, phi.att.vec, phi.def.vec, sigma.att.vec, sigma.def.vec)
+matplot(1:23,t(param.mat), type = "o", lty=1, pch = "+",
+        col = 1:5, xlab = "Round number", ylab = "Parameter value")
+# again, see sigma.atta.vec is getting very close to prior bounds
+# a similar story to it's traceplot
+legend(x = 1, y = 0.49,c(expression(delta), expression(phi[a]), expression(phi[beta]),
+                         expression(sigma[a]), expression(sigma[beta])),
+       lty = 1,col = 1:5, cex = 1.5, text.width = 1.5)
 
-# means, sds, phis, other parameters through time
+
+# means, through time, don't know if any of these are any good ????
+matplot(x = 1:23, y = goal.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[alpha]))
+
+matplot(x = 1:23, y = behind.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[gamma]))
+
+matplot(x = 1:23, y = def.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[beta]))
+
+# singular attack / def strength plots
+
+
+
+
+# ci's
+
+#N.CALC
+
+optimal.z <- function(quantile) {
+  inside.int <- matrix(0, nrow = 1, ncol = (23*9 - 9))
+  z <- 1
+  # pick "c"i level
+  ci <- qnorm(quantile)
+  for (i in 1:23) {
+    list.len <- length(results[[i]])
+    for (q in 3:list.len) {
+      mean <- as.numeric(as.matrix(results[[i]][, q])[3])
+      sd.est <- as.numeric(as.matrix(results[[i]][, q])[11])
+      actual <- as.numeric(as.matrix(results[[i]][, q])[6])
+      if(actual < (mean + ci * sd.est) &  actual > (mean - ci*sd.est)) {
+        inside.int[z] <- 1
+      }
+      z <- z + 1
+    }
+  }
+  mean(inside.int) # not exactly close to 95%, but not that far either ?
+}
+
+
+
+x.vals <- seq(from = 0.5, to = 0.999, by = 0.001)
+
+y.vals <- matrix(0, nrow = 1, ncol = length(x.vals))
+
+for(i in 1:length(x.vals)) {y.vals[i] <- optimal.z(x.vals[i])}
+
+plot(x=x.vals, y = y.vals, type = "l", xlab = "Normal Quantile", ylab = "Coverage")
+abline(a = -1, b = 2, col = "blue") # not the line i am looking for, ask berwin ? / think harder

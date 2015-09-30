@@ -120,7 +120,7 @@ for (i in min(x):max(x)) {
   q <- q + 1
 }
 y <- exp(-(lambda1+lambda2)) * (lambda1/lambda2)^(x/2) * normalising.vec.1
-plot(x = x, y = y, type = "o", col ="blue")
+plot(x = x, y = y, type = "o", col ="blue", axes=FALSE, xlab = "", ylab= "")
 
 lambda3 <- 3
 lambda4 <- 4
@@ -150,3 +150,11 @@ lines(x = x, y = y.3, type = "o", col = "black")
 
 legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 2"),
        col = c("blue", "red", "black"), lty = 1, cex = 1.3, text.width = 5.4)
+
+library(Bessel)
+x = seq(from = -5, to = 70, by = 0.1)
+plot(x = x, y =BesselI(x, nu = 0), type = "l", col = "blue", xlim = c(0,71), ylab = "BesselI(z,2(λ1λ2))", xlab = "2(λ1λ2)")
+lines(x=x, y= BesselI(x, nu = 1), type = "l", col ="black")
+lines(x=x, y =BesselI(x, nu = 2), type = "l", col = "red")
+lines(x=x, BesselI(x, nu = -3), type = "l", col = "green")
+legend(x = 7, y = 7, legend = c("z = 0", "z = 1", "z = 2", "z = 3"), col = c("blue", "black", "red", "green"), lty = 1, cex = 1.2, text.width = 2.5)
