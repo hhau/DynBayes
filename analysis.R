@@ -109,8 +109,20 @@ matplot(x = 1:23, y = def.mean, type="o", pch="+", xlab = "Round number", ylab =
 
 # singular attack / def strength plots
 
+setwd("/Users/hilary/Desktop/aam/roundfits/23/")
 
+# def str
 
+def.str <- as.matrix(read.csv(file = "def.str.csv"))
+def.str <- def.str[,-1]
+
+matplot(1:68, def.str[,c(10,11)], type = "l") # freo and Melbourne
+
+# goal att str
+goal.att.str <-as.matrix(read.csv(file = "goal.attack.str.csv"))[,-1]
+matplot(1:68, goal.att.str[,c(10,11)], type= "l")
+
+# not actually sure this is a good idea
 
 # ci's
 
@@ -145,4 +157,6 @@ y.vals <- matrix(0, nrow = 1, ncol = length(x.vals))
 for(i in 1:length(x.vals)) {y.vals[i] <- optimal.z(x.vals[i])}
 
 plot(x=x.vals, y = y.vals, type = "l", xlab = "Normal Quantile", ylab = "Coverage")
-abline(a = -1, b = 2, col = "blue") # not the line i am looking for, ask berwin ? / think harder
+segments(0.5, 0, 1, 1, col = "blue", lty = 1)
+# abline(a = -1, b = 2, col = "blue") # not the line i am looking for, ask berwin ? / think harder
+legend(x = 0.9, y = 0.4, c("Ideal", "Actual"), col = c("blue", "black"), lty = 1, cex = 1, text.width = 2)
