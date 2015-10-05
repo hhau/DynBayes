@@ -120,7 +120,7 @@ matplot(1:68, def.str[,c(10,11)], type = "l") # freo and Melbourne
 
 # goal att str
 goal.att.str <-as.matrix(read.csv(file = "goal.attack.str.csv"))[,-1]
-matplot(1:68, goal.att.str[,c(10,11)], type= "l")
+matplot(1:68, goal.att.str[,c(3,10)], type= "l")
 
 # not actually sure this is a good idea
 
