@@ -152,9 +152,12 @@ legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 
        col = c("blue", "red", "black"), lty = 1, cex = 1.3, text.width = 5.4)
 
 library(Bessel)
-x = seq(from = -5, to = 70, by = 0.1)
-plot(x = x, y =BesselI(x, nu = 0), type = "l", col = "blue", xlim = c(0,71), ylab = "BesselI(z,2(λ1λ2))", xlab = "2(λ1λ2)")
+x = seq(from = 0, to = 8, by = 0.1)
+plot(x = x, y =BesselI(x, nu = 0), type = "l", col = "blue", xlim = c(0,9), ylab = "BesselI(z,2(λ1λ2))", xlab = "2(λ1λ2)", cex.lab = 1.3)
 lines(x=x, y= BesselI(x, nu = 1), type = "l", col ="black")
 lines(x=x, y =BesselI(x, nu = 2), type = "l", col = "red")
 lines(x=x, BesselI(x, nu = -3), type = "l", col = "green")
-legend(x = 7, y = 7, legend = c("z = 0", "z = 1", "z = 2", "z = 3"), col = c("blue", "black", "red", "green"), lty = 1, cex = 1.2, text.width = 2.5)
+legend(x = 0, y = 400, legend = c("z = 0", "z = 1", "z = 2", "z = 3"), col = c("blue", "black", "red", "green"), lty = 1, cex = 1.5, text.width = 2.5)
+
+setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/")
+all.dat <- as.data.frame(read.csv("data.2013.through.2015.csv"))

@@ -158,5 +158,98 @@ for(i in 1:length(x.vals)) {y.vals[i] <- optimal.z(x.vals[i])}
 
 plot(x=x.vals, y = y.vals, type = "l", xlab = "Normal Quantile", ylab = "Coverage")
 segments(0.5, 0, 1, 1, col = "blue", lty = 1)
-# abline(a = -1, b = 2, col = "blue") # not the line i am looking for, ask berwin ? / think harder
+# abline(a = -1, b = 2, col = "blue") # not the line i am looking for
 legend(x = 0.9, y = 0.4, c("Ideal", "Actual"), col = c("blue", "black"), lty = 1, cex = 1, text.width = 2)
+
+# actual mat
+
+
+all.team.names <- matrix(c("Adelaide",
+                           "Brisbane",
+                           "Carlton",
+                           "Collingwood",
+                           "Essendon",
+                           "Fremantle",
+                           "GWS",
+                           "Geelong",
+                           "Gold Coast",
+                           "Hawthorn",
+                           "Melbourne",
+                           "North Melbourne",
+                           "Port Adelaide",
+                           "Richmond",
+                           "St Kilda",
+                           "Sydney",
+                           "West Coast",
+                           "Western Bulldogs"
+), nrow = 18, ncol = 1)
+
+team.nums <- 1:18
+lookup.frame <- as.data.frame(all.team.names, stringsAsFactors = FALSE)
+names(lookup.frame)[names(lookup.frame)=="V1"] <- "team.names"
+lookup.frame$team.number <- team.nums
+
+lookup.table <- lookup.frame$team.number
+names(lookup.table) <- lookup.frame$team.names
+
+
+points.at.t <- matrix(0, nrow = 23, ncol = 18)
+
+pred.at.t <- matrix(0, nrow = 23, ncol = 18)
+
+for(i in 1:23) {
+  current.round <- as.matrix(results[[i]])
+  list.len <- length(results[[i]])
+  for (q in 3:list.len) {
+    expected.home <- sum(as.numeric(current.round[8:10,q]) * c(4,2,0))
+    expected.away <- 4 - expected.home
+    home.team.num <- lookup.table[current.round[4,q]]
+    away.team.num <- lookup.table[current.round[5,q]]
+    pred.at.t[i, home.team.num] <- expected.home
+    pred.at.t[i, away.team.num] <- expected.away
+
+    if(as.numeric(current.round[6, q]) < 0) { # away team win
+      points.at.t[i, home.team.num] <- 0
+      points.at.t[i, away.team.num] <- 4
+    } else if (as.numeric(current.round[6, q]) == 0) { # draw
+      points.at.t[i, home.team.num] <- 2
+      points.at.t[i, away.team.num] <- 2
+    } else { # home win
+      points.at.t[i, home.team.num] <- 4
+      points.at.t[i, away.team.num] <- 0
+    }
+  }
+}
+
+geelong <- lookup.table["Geelong"]
+ad <- lookup.table["Adelaide"]
+
+points.at.t[14, geelong ] <- points.at.t[14, ad]  <- 2
+
+points.over.t <- apply(points.at.t, 2, cumsum)
+pred.over.t <- apply(pred.at.t,2,cumsum)
+colnames(points.over.t) <- lookup.frame$team.names
+colnames(pred.over.t) <- lookup.frame$team.names
+
+library(reshape)
+library(lattice)
+library(latticeExtra)
+
+plot(1:23, points.over.t[, "GWS"], type = "l", ylim = c(0, 60))
+points(1:23, pred.over.t[, "GWS"], type = "l", col = "blue")
+
+actual <- melt(points.over.t)
+pred <- melt(pred.over.t)
+index <- order(points.over.t[23,])
+pred$X2 <- factor(pred$X2, levels = lookup.frame$team.names[index])
+actual$X2 <- factor(actual$X2, levels = lookup.frame$team.names[index])
+
+temp2 <- rbind(cbind(pred,X3 = 1), cbind(actual,X3 = 2))
+temp2$X3 <- factor(temp2$X3, labels = c("Predicted", "Actual"))
+xyplot(value~X1|X2, temp2, groups = X3, type = "l", layout = c(6,3), xlab = "Round", ylab = "Points", auto.key=list(columns = 2, lines = TRUE, points = FALSE))
+
+
+# temp <- xyplot(value ~ X1|X2, actual, type = "l", col = "Red", layout = c(6,3), xlab = "Round", ylab = "Points", auto.key = TRUE)
+# final <- temp + xyplot(value ~ X1|X2, pred, type = "l", col = "blue",layout = c(6,3))
+
+
