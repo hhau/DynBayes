@@ -1,7 +1,9 @@
 # analysis of all the fits
 library(xtable)
-
+#### This will probably need changing
 setwd("/Users/hilary/Desktop/aam/")
+####
+
 base.dir <- getwd()
 tt <- as.character(1:23)
 dir.list <- ifelse(nchar(tt)==2,tt,paste0("0",tt))
@@ -251,5 +253,9 @@ xyplot(value~X1|X2, temp2, groups = X3, type = "l", layout = c(6,3), xlab = "Rou
 
 # temp <- xyplot(value ~ X1|X2, actual, type = "l", col = "Red", layout = c(6,3), xlab = "Round", ylab = "Points", auto.key = TRUE)
 # final <- temp + xyplot(value ~ X1|X2, pred, type = "l", col = "blue",layout = c(6,3))
+
+# UWA tipping comparison
+
+
 
 

@@ -161,3 +161,10 @@ legend(x = 0, y = 400, legend = c("z = 0", "z = 1", "z = 2", "z = 3"), col = c("
 
 setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/")
 all.dat <- as.data.frame(read.csv("data.2013.through.2015.csv"))
+
+library(hexbin)
+library(RColorBrewer)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+tempdf <- data.frame(dat$home.goals - dat$away.goals, dat$home.behinds - dat$away.behinds)
+plot(hexbin(tempdf, xbins = 15), colramp = rf, xlab = "Goal difference", ylab = "Behind difference")
