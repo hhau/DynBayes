@@ -1,0 +1,26 @@
+#!/bin/bash
+
+Rscript ./01/fit\ g+b.R 
+Rscript ./02/fit\ g+b.R
+Rscript ./03/fit\ g+b.R
+Rscript ./04/fit\ g+b.R
+Rscript ./05/fit\ g+b.R
+Rscript ./06/fit\ g+b.R
+Rscript ./07/fit\ g+b.R 
+Rscript ./08/fit\ g+b.R 
+Rscript ./09/fit\ g+b.R 
+Rscript ./10/fit\ g+b.R 
+Rscript ./11/fit\ g+b.R 
+Rscript ./12/fit\ g+b.R 
+Rscript ./13/fit\ g+b.R 
+Rscript ./14/fit\ g+b.R 
+Rscript ./15/fit\ g+b.R 
+Rscript ./16/fit\ g+b.R 
+Rscript ./17/fit\ g+b.R 
+Rscript ./18/fit\ g+b.R 
+Rscript ./19/fit\ g+b.R 
+Rscript ./20/fit\ g+b.R 
+Rscript ./21/fit\ g+b.R 
+Rscript ./22/fit\ g+b.R 
+Rscript ./23/fit\ g+b.R 
+

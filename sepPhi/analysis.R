@@ -1,5 +1,7 @@
 # analysis of all the fits
 library(xtable)
+library(hexbin)
+library(RColorBrewer)
 #### This will probably need changing
 setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/Fittingcode/hon-thesis/sepPhi")
 ####
@@ -131,7 +133,8 @@ matplot(1:68, goal.att.str[,c(3,10)], type= "l")
 # ci's
 
 #N.CALC
-
+predicted.points <- 0
+actual.points <- 0
 optimal.z <- function(quantile) {
   inside.int <- matrix(0, nrow = 1, ncol = (23*9 - 9))
   z <- 1
@@ -141,8 +144,10 @@ optimal.z <- function(quantile) {
     list.len <- length(results[[i]])
     for (q in 3:list.len) {
       mean <- as.numeric(as.matrix(results[[i]][, q])[3])
+      #predicted.points <- c(predicted.points, mean)
       sd.est <- as.numeric(as.matrix(results[[i]][, q])[11])
       actual <- as.numeric(as.matrix(results[[i]][, q])[6])
+      #actual.points <- c(actual.points, actual)
       if(actual < (mean + ci * sd.est) &  actual > (mean - ci*sd.est)) {
         inside.int[z] <- 1
       }
@@ -151,7 +156,6 @@ optimal.z <- function(quantile) {
   }
   mean(inside.int) # not exactly close to 95%, but not that far either ?
 }
-
 
 
 x.vals <- seq(from = 0.5, to = 0.999, by = 0.001)
@@ -258,6 +262,21 @@ xyplot(value~X1|X2, temp2, groups = X3, type = "l", layout = c(6,3), xlab = "Rou
 
 # UWA tipping comparison
 
+# predicted vs actual data
+
+predicted.points <- predicted.points[-1]
+actual.points <- actual.points[-1]
+plot(x = predicted.points, y = actual.points)
+tempdf <- data.frame(predicted.points, actual.points)
+templm <- lm(actual.points ~ predicted.points - 1, data = tempdf)
+abline(0, coef(templm))
+
+plot(x =  predicted.points, resid(templm))
+
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+plot(hexbin(tempdf, xbins = 25), xlab = "Predicted point difference", ylab = "Actual point difference difference")
 
 
 

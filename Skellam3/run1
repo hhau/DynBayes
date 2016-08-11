@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for dir in [0-2][0-9];
+do
+    cd $dir
+    Rscript fit\ g+b.R 
+    cd ..
+done
+

@@ -1,4 +1,3 @@
-# hon-thesis
-2015 Honours thesis
+# DynBayes
 
-This is the code to that accompanies my 2015 Honours thesis at the UWA school of Mathematics & Statistics, entitled "Dynamic Bayesian forecasting of AFL match results using the Skellam distribution""
+This is the code that accompanies the 2016 publication entitled "Dynamic Bayesian forecasting of AFL match results using the Skellam distribution" 

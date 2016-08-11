@@ -1,0 +1,208 @@
+library(Bessel)#
+lambda1 <- 1#
+lambda2 <- 1#
+x <- -10:10#
+normalising.vec.1 <- matrix(NA, nrow = 1, ncol = length(x))#
+#
+q <- 1#
+for (i in min(x):max(x)) {#
+  normalising.vec.1[q] <- BesselI(z = (2*sqrt(lambda1*lambda2)), nu = i, nSeq = 1)#
+  q <- q + 1#
+}#
+y <- exp(-(lambda1+lambda2)) * (lambda1/lambda2)^(x/2) * normalising.vec.1
+plot(x = x, y = y, type = 1, col =1, axes=FALSE, xlab = "", ylab= "")
+plot(x = x, y = y, type = "l", pch = "+" col =1, axes=FALSE, xlab = "", ylab= "")
+plot(x = x, y = y, type = "l", pch = "+", col =1, axes=FALSE, xlab = "", ylab= "")
+plot(x = x, y = y, type = "l", pch = "+", col =1, xlab = "z", ylab= expression(f[Z](z)))
+plot(x = x, y = y, type = "o", pch = "+", col =1, xlab = "z", ylab= expression(f[Z](z)))
+lambda1 <- 1#
+lambda2 <- 1#
+x <- -10:10#
+normalising.vec.1 <- matrix(NA, nrow = 1, ncol = length(x))#
+#
+q <- 1#
+for (i in min(x):max(x)) {#
+  normalising.vec.1[q] <- BesselI(z = (2*sqrt(lambda1*lambda2)), nu = i, nSeq = 1)#
+  q <- q + 1#
+}#
+y <- exp(-(lambda1+lambda2)) * (lambda1/lambda2)^(x/2) * normalising.vec.1#
+#plot(x = x, y = y, type = "o", pch = "+", col =1, xlab = "z", ylab= expression(f[Z](z)))#
+#
+lambda3 <- 3#
+lambda4 <- 4#
+normalising.vec.2 <- matrix(NA, nrow = 1, ncol = length(x))#
+#
+q <- 1#
+for (i in min(x):max(x)) {#
+  normalising.vec.2[q] <- BesselI(z = (2*sqrt(lambda3*lambda4)), nu = i, nSeq = 1)#
+  q <- q + 1#
+}#
+y.2 <- exp(-(lambda3+lambda4)) * (lambda3/lambda4)^(x/2) * normalising.vec.2#
+#
+#lines(x = x, y = y.2, type = "o", col = "red")#
+#
+lambda5 <- 2#
+lambda6 <- 2#
+normalising.vec.3 <- matrix(NA, nrow = 1, ncol = length(x))#
+#
+q <- 1#
+for (i in min(x):max(x)) {#
+  normalising.vec.3[q] <- BesselI(z = (2*sqrt(lambda5*lambda6)), nu = i, nSeq = 1)#
+  q <- q + 1#
+}#
+y.3 <- exp(-(lambda5+lambda6)) * (lambda5/lambda6)^(x/2) * normalising.vec.3
+y.1
+y
+help(matplot)
+cbind(y, y.2)
+rbind(y, y.2)
+rbind(y, y.2, y.3)
+t(rbind(y, y.2, y.3))
+matplot(x, mat)
+mat <- t(rbind(y, y.2, y.3))
+matplot(x, mat)
+matplot(x, mat, type = "o")
+matplot(x, mat, type = "o", lty = 1:3, col = 1)
+matplot(x, mat, type = "o", lty = 1:3, col = 1, pch = "+")
+matplot(x, mat, type = "o", lty = 1:3, col = 1, pch = c("+", ".","*"))
+help(plot)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+help(paste)
+leg.1 <- paste(expression(lambda[1]), " = ", expression(lambda[2]), " = 1", sep = "")
+legend("topleft", legend = c(leg.1), lty = 1)
+help(expression)
+leg.1 <- paste(expression(sigma[1]), " = ", expression(lambda[2]), " = 1", sep = "")
+legend("topleft", legend = c(leg.1), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(leg.1), lty = 1)
+leg.1 <- paste(expression(lambda[q]), " = ", expression(lambda[2]), " = 1", sep = "")
+legend("topleft", legend = c(leg.1), lty = 1)
+expression(lambda[1])
+legend("topleft", legend = c(expression(lambda[1])), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(expression(lambda[1])), lty = 1)
+legend("topleft", legend = c(paste(expression(lambda[1]), " = ", expression(lambda[2]), " = 1", sep = "")), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(paste(expression(lambda[1]), " = ", expression(lambda[2]), " = 1", sep = "")), lty = 1)
+leg.1 <- as.symbol(paste(expression(lambda[1]), " = ", expression(lambda[2]), " = 1", sep = ""))
+legend("topleft", legend = c(paste(expression(lambda[1]), " = ", expression(lambda[2]), " = 1", sep = "")), lty = 1)
+leg.1 <- expression(paste(lambda[1], "=", lambda[2], "=", 1, sep = " "))
+legend("topleft", legend = c(leg.1), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(leg.1), lty = 1)
+leg.1 <- expression(paste(lambda[1], "=", lambda[2], "=", 1, sep = "  "))
+legend("topleft", legend = c(leg.1), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(leg.1), lty = 1)
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", 1, sep = " "))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("topleft", legend = c(leg.1), lty = 1)
+legend("topleft", legend = c(leg.1), lty = 1, au	to.key = list(colums = 1, lines = T, points = T))
+legend("topleft", legend = c(leg.1), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", 1, sep = " "))
+leg.2 <- expression(paste(lambda[1], " = ", 3 , lambda[2], " = ", 4, sep = " "))
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", 2, sep = " "))
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "1", sep = " "))
+leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep = " "))
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = " "))
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1)
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1)
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))#
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "1", sep = " "))#
+leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep = " "))#
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = " "))#
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"))
+help(legend)
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))#
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "1", sep = " "))#
+leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep = " "))#
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = " "))#
+legend("topleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+legend("centreleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+legend("centerleft", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))#
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "1", sep = " "))#
+leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep = " "))#
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = " "))#
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = 1:3, col =1, pch = c("+", ".","*"), bty = "n")
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, ), col =1, pch = c("+", ".","*"), bty = "n", ncol = 2)
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c("+", ".","*"), bty = "n", ncol = 2)
+legend("left", legend = c(" ", " ", " ",leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c("+", ".","*"), bty = "n", ncol = 2)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(" ", " ", " ",leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c("+", ".","*"), bty = "n", ncol = 2)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(" ", " ", " ",leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c(NA,NA,NA,"+", ".","*"), bty = "n", ncol = 2)
+plot( 0, type="n", xlim=c(0,5), ylim=c(0,5) )#
+A <- matrix( c( c(1,2,3,4), c(2,1,2,4)), ncol=2 )#
+B <- matrix( c( c(1,2,3,4), c(1,3,3,2)), ncol=2 )#
+lines( A, col="red" )#
+points( A, col="blue", pch=15 )#
+lines( B, col="green" )#
+points( B, col="purple", pch=17 )#
+#
+legend( x="topleft", #
+        legend=c("Red line, blue points","Green line, purple points"),#
+        col=c("red","green"), lwd=1, lty=c(1,2), #
+        pch=c(NA,NA) )#
+#
+legend( x="topleft", #
+        legend=c("Red line, blue points","Green line, purple points"),#
+        col=c("blue","purple"), lwd=1, lty=c(0,0), #
+        pch=c(15,17) )
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(" ", " ", " ",leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c(NA,NA,NA,"+", ".","*"), bty = "n", ncol = 2)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c("", "", "",leg.1, leg.2, leg.3), lty = c(1:3, NA, NA, NA), col =1, pch = c(NA,NA,NA,"+", ".","*"), bty = "n", ncol = 2)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = "o", xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = "0", xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 1, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 2, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 3, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 5, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 6, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 7, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 8, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 9, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 10, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 11, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 112, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 12, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 13, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 14, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 15, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 16, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 17, xlab = "z", ylab = expression(f[Z](z)))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 18, xlab = "z", ylab = expression(f[Z](z)))
+c("+", ".","*")
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+help(legend)
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = c("+", ".","*"), bty = "n", ncol = 1, merge = F)
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 1:3, bty = "n", ncol = 1, merge = F)
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = c("+", ".","*"), xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F)
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F, pt.cex = 0.5)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)))
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F, pt.cex = 0.5)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), pt.cex = 0.7)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), pt.cex = 0.5)
+help(matplot)
+??pointsize
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), ps = 0.5)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), ps = 0.2)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), cex = 0.8 )
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), cex = 0.5 )
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F, pt.cex = 0.5)
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), cex = 0.8 )
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col =1, pch = 4:6, bty = "n", ncol = 1, merge = F, pt.cex = 0.5)

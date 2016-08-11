@@ -1,4 +1,4 @@
 #!/bin/bash
 rsync -rav -e ssh  --exclude='samples.csv' --exclude='*.0' \
-aam@130.95.16.29:roundfits/ \
-./sepPhi
+aam@130.95.16.29:Sk4/ \
+./Sk4

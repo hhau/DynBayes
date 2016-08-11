@@ -1,0 +1,577 @@
+qpois(1-0.0001,1.7)
+matrix(0,nrow=4,ncol=4)
+7!
+factorial(7)
+factorial(3)
+q1pmat <- matrix(c(0.3,0.7,0,0,0.4,0.6,0.6,0,0.4),nrow = 3,byrow = TRUE)
+q1pmat
+2*q1pmat
+diag(4)
+exp(-1.7)
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:m){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	PHatTempN <- PHatTempN + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*PHatTempN #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+q3phat
+sum(q3phat[1,])
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:m){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat +(((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	PHatTempN <- PHatTempN + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*PHatTempN #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+dim(q3phat)
+diag(dim(q3phat)[1,])
+dim(q3phat)[1,]
+dim(q3phat)[1,1]
+dim(q3phat)[1]
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:m){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+looper <-function(mat1, n){#
+	mattemp <- mat1#
+	i<-0#
+	for(i in i:n) {#
+		mattemp <- mattemp%*%mat1#
+		if(i>(n-3)) {#
+			print(mattemp) #print the last three matrcies to see if we are in a steady state#
+		}#
+	}#
+}
+q1pmat <- matrix(c(0.3,0.7,0,0,0.4,0.6,0.6,0,0.4),nrow = 3,byrow = TRUE)
+looper(q1pmat,10000) #run as looper(1-step transition matrix,number of itterations + 1)  the +1 is important
+expectedOccupations <-function(mat, n){ #this function is correct, checked with example in chp3 of notes#
+	dims <-dim(mat)#
+	MatP <- matrix(0,nrow = dims[1], ncol=dims[2])#
+	matTemp <-diag(dims[1])#
+	for(i in 1:n){#
+		matTemp <- matTemp%*%mat#
+		# if(i == 1){#
+			# print(matTemp)#
+		# }#
+		MatP <- MatP + matTemp#
+	}#
+	MatP <- MatP + diag(dims[1])#
+	return(MatP)#
+}
+q1pmat <- matrix(c(0.3,0.7,0,0,0.4,0.6,0.6,0,0.4),nrow = 3,byrow = TRUE)
+M3 <- expectedOccupations(q1pmat,2)
+M3
+Ebi <- matrix(c(1,4,10),nrow = 3)
+M3[1,]%*%Ebi #answer to 1e)
+matrix(1/3,nrow=3,ncol=3)
+q2a10 <-q2qi %*%(matrix(1/3,nrow=3,ncol=3))
+q2ai <-matrix(c(1/3,1/3,1/3),nrow = 3)
+q2a10 <-q2qi %*%(matrix(1/3,nrow=3,ncol=3))
+q2a10 <-q2ai %*%(matrix(1/3,nrow=3,ncol=3))
+q2a10 <-q2ai%*%q2mat10
+q2mat10 <-(matrix(1/3,nrow=3,ncol=3))
+q2a10 <-q2ai%*%q2mat10
+q2ai <-matrix(1/3,nrow = 1,ncol=3)
+q2ai
+q2mat10
+q2a10 <-q2ai%*%q2mat10
+q2a10
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:1000){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+warnings()
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:m){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:2m){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:(2*m)){#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+sum(p1[2,])
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:(2*m)){ #note that we double m as computational time is cheap, and accuracy is more important, particularly as the matrix of interest has an m value <20.#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=4,ncol=4) #temp matrix to store the summation value#
+	for(i in 1:(m)){ #note that we double m as computational time is cheap, and accuracy is more important, particularly as the matrix of interest has an m value <20.#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+q3phat <- matrix(c(7/17,0,0,10/17,5/17,12/17,0,0,5/17,0,12/17,0,3/17,2/17,2/17,10/17), nrow=4,byrow=T)
+p1 <-ctsPt(q3phat,1.7,1,0.0001)
+p1
+sum(p1[1,])
+q <- matrix(c(-5,2,3,0,4,-6,2,0,0,2,-4,2,1,0,3,-4),nrow=4,byrow=T)
+q4 <-q[-4,-4]
+I4 <- solve(q4)
+hj <- -rowSums(I4)
+hj
+assign2qmat <- matrix(c(-4,0,4,4,-4,0,0,4,-4),nrow=3,byrow=T)
+assign2qmat
+q.to.phat <- function(Q){#
+	Q=abs(Q)#
+	len <- sqrt(length(Q))#
+	Phat = matrix(numeric(length(Q)),nrow=len,ncol=len)#
+	r = max(diag(Q))#
+	ri = diag(Q)#
+	for (i in 1:len){#
+		for (j in 1:len){#
+			if (i != j){#
+				Phat[i,j]=Q[i,j]/r#
+			}#
+			else{#
+				Phat[i,j]=1-(ri[i]/r)#
+			}#
+		}#
+	}	#
+return (Phat)#
+}
+assign2phat <- q.to.phat(assign2qmat)
+assign2phat
+ctsPt <-function(PHatMat,r,t,eps){ #a function that returns the cts value of P(t) given a (numerical) P^{hat} matrix, the corresponding choosen r, the t value and the required degree of precision #
+	dims <- dim(PHatMat)#
+	m <- qpois(1-eps,r*t) #precision calculation N(t) is ~Pois(r*t)#
+	PHatTempN <- diag(dims[1]) #need a matrix to get the correct value of P^{hat} for each addition of the summation#
+	tempsummat <- matrix(0,nrow=dims,ncol=dims) #temp matrix to store the summation value#
+	for(i in 1:(2*m)){ #note that we double m as computational time is cheap, and accuracy is more important, particularly as the matrix of interest has an m value <20.#
+		PHatTempN <-PHatTempN%*%PHatMat#
+		tempsummat <- tempsummat + (((r*t)^i)/factorial(i))*PHatTempN#
+	}	#
+	tempsummat <- tempsummat + diag(dims[1]) #adding the identity for the first step#
+	tempsummat <-(exp(-r*t))*tempsummat #adjusting by our e^{-rt} factor#
+	return(tempsummat) #
+}
+ctsPt(assign2phat,4,2,0.00001)
+ctsPt(assign2phat,4,2,0.0000001)
+ctsPt(assign2phat,4,10,0.0000001)
+t2 <- ctsPt(assign2phat,4,2,0.0000001)
+t2
+help(gamma)
+help(pgamma)
+dgamma(2,4,rate=4)
+qgamma(0.999,4,rate=4)
+qgamma(1-0.999,4,rate=4)
+pgamma(2,4,rate=4)
+x <- seq(from=0, to=6, length.out=100)
+x
+ylim <- c(0, 0.6)
+plot(x, dgamma(x,shape=4,rate=4), main="Gamma",type='l', ylim=ylim)
+ylim <- c(0, 3)
+plot(x, dgamma(x,shape=4,rate=4), main="Gamma",type='l', ylim=ylim)
+ylim <- c(0, 1)
+plot(x, dgamma(x,shape=4,rate=4), main="Gamma",type='l', ylim=ylim)
+1-pgamma(2,4,rate=4)
+qgamma(1-0.999,1,rate=4)
+qgamma(0.999,1,rate=4)
+shapefinder <- function(drate,prob,time){#
+	a <-1#
+	tshape <-1#
+	while(a == 1) {#
+		if(pgamma(time,tshape,rate=drate)<(1-prob)){#
+			a <-2#
+			return(tshape)#
+		}#
+		tshape <- tshape + 1#
+	}#
+}
+shapefinder(4,0.999,2)
+shapefinder <- function(drate,prob,time){#
+	a <-1#
+	tshape <-1#
+	while(a == 1) {#
+		if(pgamma(time,tshape,rate=drate)<(1-prob)){#
+			a <-2#
+			return(tshape)#
+		}#
+		tshape <- tshape + 1#
+	}#
+}
+shapefinder(4,0.999,2)
+1-pgamma(2,4,rate=4)
+1-pgamma(2,3,rate=4)
+shapefinder(4,0.999,2)
+pgamma(2,19,rate=4)
+1-pgamma(2,19,rate=4)
+1-pgamma(2,18,rate=4)
+1-pgamma(2,19,rate=4)
+1-pgamma(2,18,rate=4)
+1-pgamma(2,3,rate=4)
+qpois(1-0.0001,1.7)
+qpois(1-0.00001,(6*0.5))
+qpois(1-0.00001,(6))
+qpois(1-0.00001,(6*5))
+help(qpois)
+exp(-0.0002)
+qt(0.975,34)
+help(qchisq)
+download.file("http://www.lepem.ufc.br/jaa/colorout_1.0-3.tar.gz", destfile = "colorout_1.0-3.tar.gz")
+install.packages("colorout_1.0-3.tar.gz", type = "source", repos = NULL)
+download.file("http://www.lepem.ufc.br/jaa/colorout_1.0-3.tar.gz", destfile = "colorout_1.0-3.tar.gz")#
+install.packages("colorout_1.0-3.tar.gz", type = "source", repos = NULL)
+help(exp)
+help(rexp)
+dexp(0.025,rate=40)
+qexp(0.025,rate=40)
+qexp(0.975,rate=40)
+qexp(0.99999999,rate=40)
+qexp(1,rate=40)
+min <- 0.02012335#
+small <- qexp(0.025,rate=40)#
+big <- qexp(0.975,rate=40)
+min/small
+small/min
+big/min
+4.582835^-1
+0.03145327^-1
+exp(-5*big)
+exp(-5*small)
+help(qchisq)
+qchisq(0.972,80)
+qchisq(0.975,80)
+qchisq(0.025,80)
+57.15317/(2*40*7.787261)
+106.6286/(2*40*7.787261)
+0.1711587^-1
+0.09174145^-1
+exp(-5*57.15317)
+exp(-5*0.1711587)
+exp(-5*0.09174145)
+(0.09222199)/(0.02012335)
+qexp(0.025)/0.02012335
+qexp(0.025,40)/0.02012335
+qexp(0.975,40)/0.02012335
+exp(-5*4.582)
+q()
+exp(-2)
+exp(2)
+q()
+ver()
+version()
+r.version()
+library(TSA)
+data(electricity)
+month = season(electricity)
+month
+model.9.8 <- lm(log(electricity) ~ month + time(electricity))
+time(electricity)
+summary(mode	l.9.8)
+model.9.8 <- lm(log(electricity) ~ month + time(electricity))
+summary(mode	l.9.8)
+summary(model.9.8)
+plot(electricity, type = "o")
+plot(log(electricity), type = "o")
+lines(fitted(model.9.8))
+lines(fitted(model.9.8), col = "blue")
+plot(log(electricity), type = "o")
+lines(fitted(model.9.8), col = "blue")
+new.months <- season(ts(rep(1,24), start = c(2006,1), freq = 12))
+new.months
+help(deltat)
+new.trend <- time(electricity) [length(electricity)] + (1:24) * deltat(electricity)
+new.trend
+plot(model.9.8, n.ahead = 24, n1 = c(2001, 1), xlab = "year", ylab = "elec", pch = 19, newxreg = as.matrix(model.matrix(~new.months + new.trend -1))[,-1])
+plot(model.9.8, n.ahead = 24, n1 = c(2001, 1), pch = 19, newxreg = as.matrix(model.matrix(~new.months + new.trend -1))[,-1])
+library(TSA)
+series.8.4 <- arima.sim(n = 30, list(ar = 0.5))
+fit.8.4 <- arima(series.8.4, order = c(1,0,0))
+plot(resid(fit.8.4), type = "o")
+abline(0,0)
+plot(qqnorm(resid(fit.8.4)))
+qqline(residuals(fit.8.4))
+acf(resid(fit.8.4))
+series.8.4 <- arima.sim(n = 30, list(ar = 0.5))
+fit.8.4 <- arima(series.8.4, order = c(1,0,0))
+acf(resid(fit.8.4))
+pacf(resid(fit.8.4))
+acf(resid(fit.8.4))
+acf(fit.8.4)
+LB.test(fit.8.4, lag = 8)
+series.8.5 <- arima.sim (n = 36, list(ma = 0.5))
+fit.8.5 <- arima(series.8.5, order = c(0,0,1))
+plot(resid(fit.8.5), type = "o")
+abline(0,0)
+tsdiag(fit.8.5)
+series.8.6 <- arima.sim(n = 48, list(ar = c(1.5, -0.75)))
+fit.8.6 <- arima(series.8.6, order = c(2,0,0))
+tsdiag(fit.8.6, gof.lag = 12) # Ljung-Box test behaves really weird
+LB.test(fit.8.6, lag=12)
+data(hare)
+fit.8.7 <- arima(sqrt(hare), order = c(3,0,0))
+plot(resid(fit.8.7), type= "o")
+abline(0,0)
+LB.test(fit.8.7, lag =9)
+runs(resid(fit.8.7))
+plot(qqnorm(resid(fit.8.7)))
+qqline(resid(fit.8.7))
+shapiro.test(resid(fit.8.7))
+??LB.test
+help(LB.test)
+setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/Fittingcode/hon-thesis/Sk4/")
+base.dir <- getwd()#
+tt <- as.character(1:23)#
+dir.list <- ifelse(nchar(tt)==2,tt,paste0("0",tt))#
+# data holding structure.#
+#
+results <- list()#
+num.correct <- 0#
+percent.correct <- matrix(NA, nrow = 23, ncol = 1 )#
+#
+goal.attack.mean <- matrix(0, nrow = 23, ncol = 18)#
+behind.attack.mean <- matrix(0, nrow = 23, ncol = 18)#
+def.mean <- matrix(0, nrow = 23, ncol = 18)#
+#
+other.params <- list()#
+#
+g.att.str <- list()#
+b.att.str <- list()#
+def.str <- list()#
+for(i in 1:23) {#
+#
+  wd <- paste(base.dir, dir.list[i], sep = "/")#
+  #print(wd)#
+  setwd(wd)#
+  results[[i]] <- read.csv("internal predictions.csv")#
+  #print(results.file.str)#
+#
+  # temp true/false loop#
+  temp <- as.matrix(results[[i]])[7,c(-1,-2)]#
+  n <- nlevels(as.factor(temp))#
+  num.temp <- as.numeric(as.factor(temp)) - (n - 1)#
+  num.correct <- num.correct + sum(num.temp)#
+  percent.correct[i] <- mean(num.temp)#
+#
+  # get the delta/phi's/sigmas through time#
+  other.params[[i]] <- read.csv("parameter estimates.csv")#
+#
+  # get the means through time#
+  temp.mat <- as.matrix(read.csv("AR mean estimates.csv"))#
+  g.att.mean.temp <- temp.mat[-1,c(-1,-3,-4)]#
+  b.att.mean.temp <- temp.mat[-1,c(-1,-2,-4)]#
+  def.mean.temp <- temp.mat[-1, c(-1,-2,-3)]#
+  goal.attack.mean[i,] <- g.att.mean.temp#
+  behind.attack.mean[i,] <- b.att.mean.temp#
+  def.mean[i,] <- def.mean.temp#
+}#
+#
+# temp true/false loop#
+#
+mean.through.time <- matrix(NA, nrow = 23, ncol =1)#
+#
+residuals <- matrix(NA)#
+#
+diff <- 0#
+#
+delta.vec <- matrix(0, nrow = 1, ncol = 23)#
+phi.att.goal.vec <- matrix(0, nrow = 1, ncol = 23)#
+phi.att.behind.vec <- matrix(0, nrow = 1, ncol = 23)#
+phi.def.vec <- matrix(0, nrow = 1, ncol = 23)#
+sigma.att.vec <- matrix(0, nrow = 1, ncol = 23)#
+sigma.def.vec <- matrix(0, nrow = 1, ncol = 23)#
+sigma.mu.vec <- matrix(0, nrow = 1, ncol = 23)#
+for(i in 1:23) {#
+  mean.through.time[i] <- sum(percent.correct[c(1:i)])/i#
+#
+  # drop the first two columns, as they are descriptive#
+  temp <- as.matrix(results[[i]])[,c(-1,-2)]#
+  #  take the predicted - actual#
+  temp.diff <- as.numeric(temp[3,]) - as.numeric(temp[6,])#
+  diff <- c(diff, temp.diff)#
+#
+  delta.vec[i] <- other.params[[i]][1,2]#
+  phi.att.goal.vec[i] <- other.params[[i]][2,2]#
+  phi.att.behind.vec[i] <- other.params[[i]][3,2]#
+  phi.def.vec[i] <- other.params[[i]][4,2]#
+  sigma.att.vec[i] <- other.params[[i]][5,2]#
+  sigma.def.vec[i] <- other.params[[i]][6,2]#
+  sigma.mu.vec[i] <- other.params[[i]][7,2]#
+}#
+#
+hist(diff[-1], xlim = c(-80,80), breaks = 50)
+matplot(1:23, cbind(mean.through.time, percent.correct),#
+        type = "l",#
+        ylim = c(0,1), xlim = c(1,23),#
+        xlab ="Round number", ylab = "Percent correct",#
+        col=c("black", "red"), lty = 1#
+        )#
+legend("bottom", legend = c("round", "mean"), col = c("red","black"), lty=1, cex = 1.1, text.width = 2.5)
+num.correct
+param.mat <- rbind(delta.vec, phi.att.goal.vec, phi.att.behind.vec, phi.def.vec, sigma.att.vec, sigma.def.vec, sigma.mu.vec)#
+matplot(1:23,t(param.mat), type = "o", lty=1:6, pch = "+",#
+        col = 1:5, xlab = "Round number", ylab = "Parameter value", ylim = c(0.0,1.03))#
+# again, see sigma.atta.vec is getting very close to prior bounds#
+# a similar story to it's traceplot#
+legend(x = 0.95, y = 0.36,c(expression(delta), expression(phi[alpha]), expression(phi[gamma]), expression(phi[beta]),#
+                         expression(sigma[a]), expression(sigma[beta]), expression(sigma[mu])),#
+       lty = 1:6 ,col = 1:5, cex = 0.8, text.width = 0.9, ncol = 2)
+matplot(x = 1:23, y = goal.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[alpha]))
+matplot(x = 1:23, y = behind.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[gamma]))
+matplot(x = 1:23, y = def.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[beta]))
+matplot(x = 1:23, y = goal.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[alpha]))
+matplot(x = 1:23, y = behind.attack.mean, type="o", pch="+", xlab = "Round number", ylab = expression(mu[gamma]))
+predicted.points <- 0#
+actual.points <- 0#
+optimal.z <- function(quantile) {#
+  inside.int <- matrix(0, nrow = 1, ncol = (23*9 - 9))#
+  z <- 1#
+  # pick "c"i level#
+  ci <- qnorm(quantile)#
+  for (i in 1:23) {#
+    list.len <- length(results[[i]])#
+    for (q in 3:list.len) {#
+      mean <- as.numeric(as.matrix(results[[i]][, q])[3])#
+      predicted.points <- c(predicted.points, mean)#
+      sd.est <- as.numeric(as.matrix(results[[i]][, q])[11])#
+      actual <- as.numeric(as.matrix(results[[i]][, q])[6])#
+      actual.points <- c(actual.points, actual)#
+      if(actual < (mean + ci * sd.est) &  actual > (mean - ci*sd.est)) {#
+        inside.int[z] <- 1#
+      }#
+      z <- z + 1#
+    }#
+  }#
+  mean(inside.int) # not exactly close to 95%, but not that far either ?#
+}
+ci <- 1.5
+inside.int <- matrix(0, nrow = 1, ncol = (23*9 - 9))#
+  z <- 1#
+  # pick "c"i level#
+  ci <- qnorm(quantile)#
+  for (i in 1:23) {#
+    list.len <- length(results[[i]])#
+    for (q in 3:list.len) {#
+      mean <- as.numeric(as.matrix(results[[i]][, q])[3])#
+      predicted.points <- c(predicted.points, mean)#
+      sd.est <- as.numeric(as.matrix(results[[i]][, q])[11])#
+      actual <- as.numeric(as.matrix(results[[i]][, q])[6])#
+      actual.points <- c(actual.points, actual)#
+      if(actual < (mean + ci * sd.est) &  actual > (mean - ci*sd.est)) {#
+        inside.int[z] <- 1#
+      }#
+      z <- z + 1#
+    }#
+  }
+for (i in 1:23) {#
+    list.len <- length(results[[i]])#
+    for (q in 3:list.len) {#
+      mean <- as.numeric(as.matrix(results[[i]][, q])[3])#
+      predicted.points <- c(predicted.points, mean)#
+      sd.est <- as.numeric(as.matrix(results[[i]][, q])[11])#
+      actual <- as.numeric(as.matrix(results[[i]][, q])[6])#
+      actual.points <- c(actual.points, actual)#
+      if(actual < (mean + ci * sd.est) &  actual > (mean - ci*sd.est)) {#
+        inside.int[z] <- 1#
+      }#
+      z <- z + 1#
+    }
+}
+predicted.points
+predicted.points <- predicted.points[-1]#
+actual.points <- actual.points[-1]#
+plot(x = predicted.points, y = actual.points, xlim = c(-250, 250), ylim = c(-150,150))
+plot(x = predicted.points, y = actual.points)

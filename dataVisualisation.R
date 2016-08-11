@@ -120,7 +120,7 @@ for (i in min(x):max(x)) {
   q <- q + 1
 }
 y <- exp(-(lambda1+lambda2)) * (lambda1/lambda2)^(x/2) * normalising.vec.1
-plot(x = x, y = y, type = "o", col ="blue", axes=FALSE, xlab = "", ylab= "")
+#plot(x = x, y = y, type = "o", pch = "+", col =1, xlab = "z", ylab= expression(f[Z](z)))
 
 lambda3 <- 3
 lambda4 <- 4
@@ -133,7 +133,7 @@ for (i in min(x):max(x)) {
 }
 y.2 <- exp(-(lambda3+lambda4)) * (lambda3/lambda4)^(x/2) * normalising.vec.2
 
-lines(x = x, y = y.2, type = "o", col = "red")
+#lines(x = x, y = y.2, type = "o", col = "red")
 
 lambda5 <- 2
 lambda6 <- 2
@@ -146,9 +146,18 @@ for (i in min(x):max(x)) {
 }
 y.3 <- exp(-(lambda5+lambda6)) * (lambda5/lambda6)^(x/2) * normalising.vec.3
 
-lines(x = x, y = y.3, type = "o", col = "black")
+#lines(x = x, y = y.3, type = "o", col = "black")
 
-legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 2"),
+mat <- t(rbind(y, y.2, y.3))
+matplot(x, mat, type = "b", lty = 1:3, col = 1, pch = 4:6, xlab = "z", ylab = expression(f[Z](z)), cex = 0.7 )
+leg.1 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "1", sep = "   "))
+leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep = "   "))
+leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = "   "))
+legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col = 1, bty = "n", pch = 4:6, ncol = 1, merge = F,
+                          pt.cex = 0.8, cex = 1.3, y.intersp = 1.7)
+# still looks kinda ugly idk
+
+#legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 2"),
        col = c("blue", "red", "black"), lty = 1, cex = 1.3, text.width = 5.4)
 
 library(Bessel)
