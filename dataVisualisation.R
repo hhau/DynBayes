@@ -1,5 +1,4 @@
 # neat-o visualsations
-setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/gbmodel/")
 dat <- as.data.frame(read.csv("data.2013.through.r18.2015.csv"))
 
 all.team.names <- matrix(
@@ -30,13 +29,13 @@ all.team.names <- matrix(
 dat$goal.diff <- dat$home.goals - dat$away.goals
 dat$behinds.diff <- dat$home.behinds - dat$away.behinds
 
-# yea some nice things happening all at once here
+#
 home.list <- lapply(X = all.team.names, function(x){which(dat$home.name %in% x)})
 away.list <- lapply(X= all.team.names, function(x){which(dat$away.name %in% x)})
 
 n.time.points <- length(home.list[[1]]) + length(away.list[[1]])
 
-#gdi why did that dude have to die
+#
 goal.data.by.team <- matrix(0, nrow = 18, ncol = n.time.points)
 behind.data.by.team <- matrix(0, nrow = 18, ncol = n.time.points)
 
@@ -155,7 +154,7 @@ leg.2 <- expression(paste(lambda[1], " = ", "3, " , lambda[2], " = ", "4", sep =
 leg.3 <- expression(paste(lambda[1], " = ", lambda[2], " = ", "2", sep = "   "))
 legend("left", legend = c(leg.1, leg.2, leg.3), lty = c(1:3), col = 1, bty = "n", pch = 4:6, ncol = 1, merge = F,
                           pt.cex = 0.8, cex = 1.3, y.intersp = 1.7)
-# still looks kinda ugly idk
+# still looks ugly
 
 #legend("topleft", legend = c("λ1 = λ2 = 1", "λ1 = 3, λ2 = 4", "λ1 =  λ2 = 2"),
        col = c("blue", "red", "black"), lty = 1, cex = 1.3, text.width = 5.4)
@@ -168,7 +167,6 @@ lines(x=x, y =BesselI(x, nu = 2), type = "l", col = "red")
 lines(x=x, BesselI(x, nu = -3), type = "l", col = "green")
 legend(x = 0, y = 400, legend = c("z = 0", "z = 1", "z = 2", "z = 3"), col = c("blue", "black", "red", "green"), lty = 1, cex = 1.5, text.width = 2.5)
 
-setwd("/Users/hilary/Desktop/Uni/y4/HonThesis/Berwin/")
 all.dat <- as.data.frame(read.csv("data.2013.through.2015.csv"))
 
 library(hexbin)

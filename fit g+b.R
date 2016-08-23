@@ -86,14 +86,11 @@ write.csv(print(summary(fit)), file = "fitproper.csv")
 print("extracting parameters")
 fit.samples <- extract(fit)
 
-# i'm not entirely sure that the extract command is dropping the burn in
-# samples, i really should get rid of them for inference sake
 write.csv(fit.samples, file = "samples.csv")
 
 # parameter estimate extractor
 delta <- mean (fit.samples$delta)
-muAttGoals.vec <- apply(fit.samples$muAttGoals, 2, mean) # I think the 18th team here is
-  # suffering from the sum to zero constraint, maybe will dissapear with more samples
+muAttGoals.vec <- apply(fit.samples$muAttGoals, 2, mean) #
 muAttBehinds.vec <- apply(fit.samples$muAttBehinds, 2, mean)
 muDef.vec <- apply(fit.samples$muDef, 2, mean)
 
@@ -143,9 +140,6 @@ winDrawLossPer <- function(x.vec) {
 
 per.chance.mat <- apply(fit.samples$totalDiff, 2, winDrawLossPer)
 
-# the sd ests are going to be wildly larger than they should due to not throwing out burn in
-# samples, should probably change all my apply's to deal with this but ehhhhhhhh, more samples
-# takes care of it for the most part
 sd.ests <- round(apply(fit.samples$totalDiff,2,sd),2)
 
 # i still think we are over predicting the draw chance, but this one
@@ -178,68 +172,3 @@ dev.off()
 pdf("def str.pdf", width = 10, height = 5)
 matplot(1:n.periods, defence.strengths.mat, type = "l", xlab = "time periods", ylab = "defence str")
 dev.off()
-
-# this section is entirely redundant, and mostly wrong
-
-
-# print("finished parameter extraction, calculating lambda values")
-# # lambda estimates
-#
-# lambda.est.vec <- matrix(0, nrow = 18, ncol = 1)
-#
-# for (i in 1:n.matches) {
-#   # home teams with delta adjustment, away teams no adjustment
-#   home.num.t <- matchup$home.number[i]
-#   away.num.t <- matchup$away.number[i]
-#   lambda.home.goals <- exp(delta + goal.attack.strenghts.mat[n.periods, home.num.t] - defence.strengths.mat[n.periods, away.num.t])
-#   lambda.home.behinds <- exp(delta + behind.attack.strengths.mat[n.periods, home.num.t] - defence.strengths.mat[n.periods, away.num.t])
-#
-#   lambda.away.goals <- exp(goal.attack.strenghts.mat[n.periods, away.num.t] - defence.strengths.mat[n.periods, home.num.t])
-#   lambda.away.behinds <- exp(behind.attack.strengths.mat[n.periods, away.num.t] - defence.strengths.mat[n.periods, home.num.t])
-#
-#   lambda.est.vec[home.num.t] <- 6 * lambda.home.goals + lambda.home.behinds
-#   lambda.est.vec[away.num.t] <- 6 * lambda.away.goals + lambda.away.behinds
-# }
-# % prediction estimates
-
-#
-# wdl.probs <- function(lambda.x, lambda.y, prec.int) {
-#   pos.mass <- matrix(0, nrow = prec.int)
-#   for (q in 1:prec.int) {
-#     pos.mass[q,1] <- exp(-(lambda.x + lambda.y)) *
-#       ((lambda.x/lambda.y)^(q/2)) *
-#       BesselI(z = (2 * sqrt(lambda.x*lambda.y)), nu = q, nSeq = 1)
-#   }
-#
-#   prob.x.win <- sum(pos.mass)
-#
-#   prob.draw <- exp(-(lambda.x + lambda.y)) *
-#     ((lambda.x/lambda.y)^(0/2)) *
-#     BesselI(z = (2 * sqrt(lambda.x*lambda.y)), nu = 0, nSeq = 1)
-#
-#   prob.x.loose <- 1 - prob.x.win - prob.draw
-#   print("w/d/l probabilites")
-#   return(c(prob.x.win, prob.draw, prob.x.loose))
-# }
-#
-# home.win.per <- matrix(0, nrow = n.matches, ncol = 1)
-# draw.per <- matrix(0, nrow = n.matches, ncol = 1)
-# home.lose.per <- matrix(0, nrow = n.matches, ncol = 1)
-#
-# for (i in 1:n.matches) {
-#   home.team <- matchup$home.number[i]
-#   away.team <- matchup$away.number[i]
-#   home.lambda <- lambda.est.vec[home.team]
-#   away.lambda <- lambda.est.vec[away.team]
-#   wdl <- wdl.probs(home.lambda, away.lambda, 20)
-#   home.win.per[i] <- wdl[1]
-#   draw.per[i] <- wdl[2]
-#   home.lose.per[i] <- wdl[3]
-#   print(i)
-# }
-#
-# matchup$home.win.per <- home.win.per
-# matchup$draw.per <- draw.per
-# matchup$home.lose.per <- home.lose.per
-#
-# write.csv(matchup, file = "matchup and external predictions.csv")

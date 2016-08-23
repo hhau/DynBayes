@@ -1,7 +1,7 @@
 # analysis of all the fits
 library(xtable)
 #### This will probably need changing
-setwd("/Users/hilary/Desktop/aam/")
+
 ####
 
 base.dir <- getwd()
@@ -111,7 +111,7 @@ matplot(x = 1:23, y = def.mean, type="o", pch="+", xlab = "Round number", ylab =
 
 # singular attack / def strength plots
 
-setwd("/Users/hilary/Desktop/aam/roundfits/23/")
+setwd("")
 
 # def str
 
